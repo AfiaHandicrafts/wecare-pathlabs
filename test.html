@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkup - We Care Pathlabs</title><link rel="icon" href="logo.svg">
+<style>
+:root{--d:#0a2a21;--g2:#2e9d77;--y:#ffc928;--gl:rgba(255,255,255,.07);--ln:rgba(255,255,255,.15)}*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,"Segoe UI",Arial,sans-serif;color:#e8efec;background:radial-gradient(circle at 10% 0,#14503d,transparent 45%),var(--d);background-attachment:fixed}
+header{background:rgba(10,42,33,.9);display:flex;align-items:center;gap:10px;padding:10px 14px;box-shadow:0 2px 0 var(--y)}header img{height:44px}header h1{margin:0;font-size:1.15rem;flex:1}
+.wm{background:linear-gradient(90deg,#fff,#ffc928);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.btn{display:inline-block;background:var(--y);color:#1d1d1d;padding:9px 18px;border-radius:24px;border:0;font-weight:700;text-decoration:none;cursor:pointer;font-size:.9rem}.btn.o{background:var(--gl);color:#fff;border:1px solid var(--ln)}
+main{max-width:900px;margin:0 auto;padding:14px}.tag{background:var(--y);color:#1d1d1d;font-size:.7rem;padding:3px 10px;border-radius:10px;font-weight:700}
+h2{color:var(--y)}.old{text-decoration:line-through;opacity:.55;margin-right:8px}.new{font-size:1.6rem;font-weight:800;color:var(--y)}
+.sl{position:relative;height:320px;border-radius:22px;overflow:hidden;box-shadow:0 12px 30px #0009;margin:16px 0}
+.s{position:absolute;inset:0;display:flex;align-items:center;padding:0 52px;opacity:0;transition:opacity .7s;background:linear-gradient(120deg,#1b6b52,#0f3b2d)}.s.on{opacity:1}
+.pic{position:absolute;right:14px;bottom:0;height:100%;width:42%;display:flex;align-items:flex-end;justify-content:center}.pic svg{height:92%;width:100%}
+.tx{max-width:58%;position:relative}.tx small{color:var(--y);letter-spacing:2px;font-weight:700}.tx h3{font-size:1.4rem;margin:6px 0}.tx p{margin:0;font-size:.95rem;line-height:1.5}
+.ar{position:absolute;top:50%;transform:translateY(-50%);background:#0007;color:#fff;border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;z-index:3}.ar.l{left:8px}.ar.r{right:8px}
+.dots{position:absolute;bottom:10px;left:0;right:0;text-align:center;z-index:3}.dots i{display:inline-block;width:9px;height:9px;border-radius:5px;background:#fff6;margin:0 4px;cursor:pointer;transition:.3s}.dots i.on{background:#fff;width:24px}
+p.t{line-height:1.7}.cap{max-width:600px;margin:30px auto 40px;background:linear-gradient(90deg,#1b6b52,#2e9d77);border-radius:60px;padding:18px 26px;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;box-shadow:0 8px 24px #000a;text-align:center}.cap b{flex-basis:100%}
+@media(max-width:600px){.s{padding:0 44px}.tx{max-width:62%}.tx h3{font-size:1.1rem}.tx p{font-size:.8rem}}
+</style></head><body>
+<header><a class="btn o" href="index.html">&#8592; Back</a><img src="logo.svg" alt=""><h1 class="wm">We Care Pathlabs</h1></header>
+<main><span class="tag" id="ct"></span><h1 id="nm" style="margin:8px 0"></h1><div id="pr"></div>
+<div class="sl" id="sl"></div>
+<h2>About this checkup</h2><p class="t" id="dt"></p>
+<h2>Before you come</h2><p class="t">Some tests need fasting or other preparation. Call or WhatsApp us before your visit and we will tell you exactly what to do. Home sample collection is available.</p>
+<div class="cap"><b>Ready to book? Contact us</b><a class="btn" id="w" href="#">WhatsApp</a><a class="btn o" id="c" href="#">&#9742; Call</a></div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script><script src="art.js"></script>
+<script>
+const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let S={phone:"+91-8937827865"},X={name:"Full Body Checkup",category:"Packages",description:"Complete health screening.",price:2500,offer_price:1799};
+const sb=(typeof SUPABASE_URL!=="undefined"&&SUPABASE_URL.startsWith("http"))?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+const ST=[["book","Step 1 - Book","Call or WhatsApp us, choose your test and a time. Home sample collection is available."],["blood","Step 2 - Sample collection","Our trained staff clean the area and take a small sample (usually blood) with a sterile, single-use needle. It takes only a few minutes."],["microscope","Step 3 - Lab testing","Your sample is labelled and tested in the lab with quality-checked equipment and careful checks."],["report","Step 4 - Your report","Your E-report is ready quickly and sent to your phone or email. Show it to your doctor."]];
+function slider(el,ms){const dots=el.querySelector(".dots"),ss=[...el.querySelectorAll(".s")];let t=0;dots.innerHTML=ss.map((_,i)=>`<i data-i="${i}"></i>`).join("");
+function go(k){t=(k+ss.length)%ss.length;ss.forEach((e,i)=>e.classList.toggle("on",i==t));[...dots.children].forEach((e,i)=>e.classList.toggle("on",i==t));clearInterval(el._tm);el._tm=setInterval(()=>go(t+1),ms)}
+el.querySelector(".l").onclick=()=>go(t-1);el.querySelector(".r").onclick=()=>go(t+1);dots.onclick=e=>e.target.dataset.i&&go(+e.target.dataset.i);
+let sx=0;el.ontouchstart=e=>sx=e.touches[0].clientX;el.ontouchend=e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>40)go(t+(d<0?1:-1))};go(0)}
+function show(){const d=S.phone.replace(/[^+\d]/g,"");document.title=X.name+" - We Care Pathlabs";$("ct").textContent=X.category;$("nm").textContent=X.name;
+$("pr").innerHTML=X.price==null?'<span class="new" style="font-size:1.1rem">Call for rate</span>':X.offer_price!=null?`<span class="old">&#8377;${esc(X.price)}</span><span class="new">&#8377;${esc(X.offer_price)}</span>`:`<span class="new">&#8377;${esc(X.price)}</span>`;
+$("dt").textContent=X.details||(X.description+" This test is done on a sample collected at our lab or at your home by trained staff. The sample is tested with quality checks and your report is shared as an E-report. Your doctor uses the result to understand your health and decide the next step.");
+$("w").href="https://wa.me/"+d.replace(/\D/g,"")+"?text="+encodeURIComponent("Hello, I want to book: "+X.name);$("c").href="tel:"+d;
+$("sl").innerHTML=ST.map(s=>`<div class="s"><div class="tx"><small>${s[1].toUpperCase()}</small><h3>${s[1].split(" - ")[1]}</h3><p>${s[2]}</p></div><div class="pic">${art(s[0])}</div></div>`).join("")+'<button class="ar l">&#10094;</button><button class="ar r">&#10095;</button><div class="dots"></div>';slider($("sl"),5000)}
+async function load(){show();if(!sb)return;try{const id=new URLSearchParams(location.search).get("id");const r=await sb.from("tests").select("*").eq("id",id).maybeSingle();if(r.data)X=r.data;
+const s=await sb.from("settings").select("*");(s.data||[]).forEach(r=>S[r.key]=r.value)}catch(e){console.error(e)}show()}
+load();
+</script></body></html>
