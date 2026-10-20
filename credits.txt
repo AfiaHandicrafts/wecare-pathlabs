@@ -1,6 +1,5 @@
 microscope: File:Pathology department at the central cancer research laboratories.jpg by Unknown photographer (Public domain) https://commons.wikimedia.org/wiki/File:Pathology_department_at_the_central_cancer_research_laboratories.jpg
 pathologist: File:Clinical Pathology Blood Testing Laboratory in Navi Mumbai, India.jpg by Goleisureintl (CC BY 4.0) https://commons.wikimedia.org/wiki/File:Clinical_Pathology_Blood_Testing_Laboratory_in_Navi_Mumbai,_India.jpg
-patient: File:CP25 Leukemia Patient Consultation (9123625).jpg by U.S. Navy photo by Petty Officer 2nd Class Jonas Womack (Public domain) https://commons.wikimedia.org/wiki/File:CP25_Leukemia_Patient_Consultation_(9123625).jpg
 checkup: File:Nigerian doctor examining a patient Wellcome L0044653.jpg by unknown (CC BY 4.0) https://commons.wikimedia.org/wiki/File:Nigerian_doctor_examining_a_patient_Wellcome_L0044653.jpg
 glucose: File:Accu-chek blood glucose test strips.jpg by Karl101 (CC BY-SA 3.0) https://commons.wikimedia.org/wiki/File:Accu-chek_blood_glucose_test_strips.jpg
 heart: File:A heart rate check up by a female doctor in Owerri, Imo State.jpg by Lilianfeliz (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:A_heart_rate_check_up_by_a_female_doctor_in_Owerri,_Imo_State.jpg
