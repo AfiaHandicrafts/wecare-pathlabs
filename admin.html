@@ -29,6 +29,7 @@ function login(){app.innerHTML=`<div class="box" style="max-width:380px;margin:1
 function toggleEye(){const p=$("p"),h=p.type=="password";p.type=h?"text":"password";$("eye").innerHTML=h?"&#128584;":"&#128065;"}
 
 
+async function doLogin(){if(Number($("cv").value)!==cap.a+cap.b){note("Wrong security answer");newCap();$("cv").value="";return}const{error}=await sb.auth.signInWithPassword({email:$("e").value,password:$("p").value});if(error){note(error.message);newCap();return}panel()}
 async function panel(){const{data}=await sb.auth.getSession();if(!data.session)return login();
 app.innerHTML=`<div class="box"><button onclick="annTab()">Announcements</button> <button onclick="testTab()">Tests &amp; Rates</button> <button onclick="setTab()">Contact info</button> <button class="r" onclick="sb.auth.signOut().then(login)">Logout</button></div><div id="view"></div>`;annTab()}
 async function annTab(){const{data}=await sb.from("announcements").select("*").order("created_at",{ascending:false});
