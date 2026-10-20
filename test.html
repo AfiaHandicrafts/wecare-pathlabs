@@ -17,7 +17,7 @@ h2{color:var(--y)}.old{text-decoration:line-through;opacity:.55;margin-right:8px
 .dots{position:absolute;bottom:10px;left:0;right:0;text-align:center;z-index:3}.dots i{display:inline-block;width:9px;height:9px;border-radius:5px;background:#fff6;margin:0 4px;cursor:pointer;transition:.3s}.dots i.on{background:#fff;width:24px}
 p.t{line-height:1.7}.cap{max-width:600px;margin:30px auto 40px;background:linear-gradient(90deg,#1b6b52,#2e9d77);border-radius:60px;padding:18px 26px;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;box-shadow:0 8px 24px #000a;text-align:center}.cap b{flex-basis:100%}
 @media(max-width:600px){.s{padding:0 44px}.tx{max-width:62%}.tx h3{font-size:1.1rem}.tx p{font-size:.8rem}}
-.pic{display:none}</style></head><body>
+.pic{display:none}html{-webkit-text-size-adjust:100%}body{overflow-x:hidden}@media(hover:none){body{background-attachment:scroll}}@media(max-width:600px){header h1{font-size:1rem}.sl{height:360px}.cap{border-radius:34px;padding:16px}}</style></head><body>
 <header><a class="btn o" href="index.html">&#8592; Back</a><img src="logo.svg" alt=""><h1 class="wm">We Care Pathlabs</h1></header>
 <main><span class="tag" id="ct"></span><h1 id="nm" style="margin:8px 0"></h1><div id="pr"></div>
 <div class="sl" id="sl"></div>
@@ -29,7 +29,7 @@ p.t{line-height:1.7}.cap{max-width:600px;margin:30px auto 40px;background:linear
 <script>
 const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let S={phone:"+91-8937827865"},X={name:"Full Body Checkup",category:"Packages",description:"Complete health screening.",price:2500,offer_price:1799};
-const sb=(typeof SUPABASE_URL!=="undefined"&&SUPABASE_URL.startsWith("http"))?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+if("scrollRestoration"in history)history.scrollRestoration="manual";window.scrollTo(0,0);const sb=(typeof SUPABASE_URL!=="undefined"&&SUPABASE_URL.startsWith("http"))?supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
 const PH={book:"patient",blood:"bloodtest",microscope:"microscope",report:"checkup"};const ST=[["book","Step 1 - Book","Call or WhatsApp us, choose your test and a time. Home sample collection is available."],["blood","Step 2 - Sample collection","Our trained staff clean the area and take a small sample (usually blood) with a sterile, single-use needle. It takes only a few minutes."],["microscope","Step 3 - Lab testing","Your sample is labelled and tested in the lab with quality-checked equipment and careful checks."],["report","Step 4 - Your report","Your E-report is ready quickly and sent to your phone or email. Show it to your doctor."]];
 function slider(el,ms){const dots=el.querySelector(".dots"),ss=[...el.querySelectorAll(".s")];let t=0;dots.innerHTML=ss.map((_,i)=>`<i data-i="${i}"></i>`).join("");
 function go(k){t=(k+ss.length)%ss.length;ss.forEach((e,i)=>e.classList.toggle("on",i==t));[...dots.children].forEach((e,i)=>e.classList.toggle("on",i==t));clearInterval(el._tm);el._tm=setInterval(()=>go(t+1),ms)}
