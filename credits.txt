@@ -13,7 +13,6 @@ urine: File:Human urine sample in a glass - 20080606.jpg by Katarighe. (CC BY-SA
 doctor: File:Ali A Haydar.jpg by Drarmaanalif (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:Ali_A_Haydar.jpg
 cbc: File:Blood film 01.jpg by CDC (Public domain) https://commons.wikimedia.org/wiki/File:Blood_film_01.jpg
 esr: File:Erythrocyte sedimentation rate (ESR).jpg by Rouibi Dhia Eddine Nadjm (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:Erythrocyte_sedimentation_rate_(ESR).jpg
-platelets: File:Platelets collected by using apheresis.jpg by Whoisjohngalt (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:Platelets_collected_by_using_apheresis.jpg
 bloodgroup: File:Blood typing by gel card method (column agglutination or MTS gel) - type O positive.jpg by SpicyMilkBoy (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:Blood_typing_by_gel_card_method_(column_agglutination_or_MTS_gel)_-_type_O_positive.jpg
 inr: File:Blood in Citrate Tube for Coagulation Test.jpg by Ajay Kumar Chaurasiya (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:Blood_in_Citrate_Tube_for_Coagulation_Test.jpg
 hba1c: File:15th MEU Coordinates Blood Drive During Foreign Disaster Relief Operations in the Philippines (9391098).jpg by U.S. Marine Corps photo by Sgt. Nicholas Cox (Public domain) https://commons.wikimedia.org/wiki/File:15th_MEU_Coordinates_Blood_Drive_During_Foreign_Disaster_Relief_Operations_in_the_Philippines_(9391098).jpg
@@ -23,3 +22,4 @@ malaria: File:Anopheles stephensi.jpeg by Jim Gathany (Public domain) https://co
 hiv: File:AIDS Awareness Ribbon (27024515711).jpg by NIAID (CC BY 2.0) https://commons.wikimedia.org/wiki/File:AIDS_Awareness_Ribbon_(27024515711).jpg
 culture: File:Cosenzaea myxofaciens Standard I colonies 96.jpg by A doubt (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:Cosenzaea_myxofaciens_Standard_I_colonies_96.jpg
 pregtest: File:Test de grossesse ouvert.jpg by Ceridwen (CC BY-SA 2.0 fr) https://commons.wikimedia.org/wiki/File:Test_de_grossesse_ouvert.jpg
+platelets: File:Platelets collected by using apheresis.jpg by Whoisjohngalt (CC BY-SA 4.0) https://commons.wikimedia.org/wiki/File:Platelets_collected_by_using_apheresis.jpg
