@@ -76,6 +76,33 @@ footer{background:#061a14;text-align:center;padding:22px 14px;font-size:.8rem;co
  #q{font-size:16px;padding:13px 18px}
 }
 @media(min-width:601px) and (max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ---- patch6: suggestions + extra polish ---- */
+.sgl{display:none;position:absolute;left:max(14px,calc((100% - 1050px)/2));right:max(14px,calc((100% - 1050px)/2));top:64px;background:#fff;color:#1d1d1d;border-radius:16px;box-shadow:0 14px 36px #000b;overflow:hidden;overflow-y:auto;max-height:60vh;z-index:40}
+.sg{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid #eef1ef;padding:13px 16px;cursor:pointer;font:inherit;color:#1d1d1d;min-height:48px}
+.sg:last-child{border-bottom:0}.sg:hover,.sg:active{background:#fff3c4}
+.sg b{flex:1;font-weight:700}.sg small{color:#667;font-weight:500;white-space:nowrap}
+#up{position:fixed;right:14px;bottom:78px;z-index:22;width:44px;height:44px;border-radius:50%;border:0;background:var(--y);color:#1d1d1d;font-size:1.3rem;font-weight:800;box-shadow:0 4px 14px #000a;opacity:0;pointer-events:none;transform:translateY(10px);transition:.25s;cursor:pointer}
+#up.show{opacity:1;pointer-events:auto;transform:none}
+.card{animation:up .45s ease both}@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card:active{transform:scale(.98)}
+.top span:first-child:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#4cd98c;margin-right:6px;animation:pl 1.6s infinite}
+@keyframes pl{0%{box-shadow:0 0 0 0 #4cd98c99}100%{box-shadow:0 0 0 9px #4cd98c00}}
+.btn:focus-visible,.chip:focus-visible,#q:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.tag.c{backdrop-filter:blur(4px)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:600px){
+ #cg{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -12px;padding:0 12px 8px;scrollbar-width:none}
+ #cg::-webkit-scrollbar{display:none}
+ #cg .cc{flex:0 0 150px;scroll-snap-align:start}
+ .tr{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:0 12px 8px;scrollbar-width:none}
+ .tr::-webkit-scrollbar{display:none}
+ .tr div{flex:0 0 74%;scroll-snap-align:start}
+ .sgl{top:62px}
+ #up{bottom:84px}
+}
+@media(min-width:801px){#up{bottom:70px}}
+@media(min-width:601px) and (max-width:1000px){.sl{height:380px}.tx{max-width:70%}section{padding:26px 20px}}
 </style></head><body>
 <div id="feed"></div>
 <nav id="nav"><a href="#tests">Book a test</a><a href="#cats">Checkup types</a><a href="#about">What we do</a><a href="#faq">FAQ</a><a href="#contact">Contact</a><a href="admin.html">Admin</a></nav>
@@ -83,7 +110,7 @@ footer{background:#061a14;text-align:center;padding:22px 14px;font-size:.8rem;co
 <header><button id="mb" aria-label="menu">&#9776;</button><img src="logo.svg" alt="logo"><h1><span class="wm">We Care Pathlabs</span><small>Smart, Instant, Caring</small></h1>
 <div class="nl"><a href="#tests">Tests</a><a href="#cats">Checkups</a><a href="#about">About</a><a href="#contact">Contact</a></div><a class="btn" id="hw" href="#">WhatsApp</a></header>
 <div class="sl" id="sl"></div><div class="tr"><div>&#10003; Accurate reports<small>Careful quality checks on every sample</small></div><div>&#10003; Hygienic collection<small>Sterile, single-use needles and tubes</small></div><div>&#10003; Trained team<small>Qualified lab professionals</small></div><div>&#10003; Quick E-reports<small>Sent to your phone or email</small></div><div>&#10003; Home collection<small>We come to you</small></div><div>&#10003; Open 7 days<small>24/7 emergency service</small></div></div>
-<div class="sbar"><input id="q" type="search" enterkeyhint="search" placeholder="Search a test: thyroid, sugar, vitamin D..." autocomplete="off"><small id="rc"></small></div>
+<div class="sbar"><input id="q" type="search" enterkeyhint="search" placeholder="Search a test: thyroid, sugar, vitamin D..." autocomplete="off"><small id="rc"></small><div id="sg" class="sgl"></div></div>
 <section class="ctr"><h2>Book a test online</h2>
 <div class="row"><a class="btn o" id="w1" href="#">&#128196; Download report</a><a class="btn o" id="w2" href="#">&#128247; Upload prescription</a><a class="btn o" id="w3" target="_blank" rel="noopener" href="#">&#128205; Find our lab</a></div></section>
 <section id="cats"><h2>Types of checkups</h2><div class="grid" id="cg"></div></section>
@@ -102,6 +129,7 @@ footer{background:#061a14;text-align:center;padding:22px 14px;font-size:.8rem;co
 <section id="contact"><h2>Contact &amp; inquiry</h2><div class="grid"><div class="card"><h3>Call / WhatsApp</h3><a id="ph" href="#"></a><div class="b"><a class="btn" id="w4" href="#">WhatsApp</a></div></div>
 <div class="card"><h3>Email</h3><a id="em" href="#"></a></div><div class="card"><h3>Address</h3><span id="ad"></span></div></div></section>
 <footer>&copy; We Care Pathlabs &bull; Not valid for medico legal purpose &bull; <a href="credits.txt" style="color:inherit">Photo credits</a></footer>
+<button id="up" aria-label="Back to top">&#8593;</button>
 <div class="mbar"><a id="bc" href="#">&#128222; Call</a><a id="bw" href="#" target="_blank" rel="noopener">WhatsApp</a><a href="#tests">&#129514; Tests</a></div>
 <a class="btn" id="fab" href="#">&#128222; Get a callback</a>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -111,7 +139,7 @@ const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,
 let S={phone:"+91-8937827865",email:"mohdibad538@gmail.com",address:"Mangalpura, Holi Chowk, Near Al-Basheer School, Sarai Tareen, Distt. Sambhal - 244303"};
 let A=[{text:"Welcome to We Care Pathlabs - Smart, Instant, Caring",kind:"info"}],T=[{id:0,name:"Full Body Checkup",description:"Complete health screening.",category:"Packages",price:2500,offer_price:1799,featured:true}],cat="All",q="",fi=0;
 const IC={offer:"\u{1F525}",new:"\u{1F195}",info:"\u{1F4E2}",notice:"\u26D4"},KA={info:"doctor",new:"blood",offer:"child",notice:"report"};
-const KW=[["senior|elder","senior"],["pregnancy test","pregtest"],["pregnan|women|woman","woman"],["hba1c","hba1c"],["diabet|sugar|glucose","glucose"],["lipid","lipid"],["heart|cardiac","heart"],["thyroid|tsh","thyroid"],["vitamin|iron|anaem|b12|ferritin","vitamin"],["urine|stool","urine"],["dengue","dengue"],["malaria","malaria"],["hiv","hiv"],["culture","culture"],["widal|typhoid|crp|hepatitis|fever","microscope"],["liver|kidney|uric|electrolyte","tubes"],["cbc|complete blood","cbc"],["esr","esr"],["platelet","platelets"],["blood group","bloodgroup"],["inr","inr"],["hemoglobin","bloodtest"],["biopsy|fnac|pap smear|psa|ca-125","pathologist"],["men's|male","doctor"],["full body|checkup|health|package|employment","checkup"]];
+const KW=[["full body","fullbody"],["senior|elder","senior"],["pregnancy test","pregtest"],["pregnan|women|woman","woman"],["hba1c","hba1c"],["diabet|sugar|glucose","glucose"],["lipid","lipid"],["heart|cardiac","heart"],["thyroid|tsh","thyroid"],["vitamin|iron|anaem|b12|ferritin","vitamin"],["urine|stool","urine"],["dengue","dengue"],["malaria","malaria"],["hiv","hiv"],["culture","culture"],["widal|typhoid|crp|hepatitis|fever","microscope"],["liver|kidney|uric|electrolyte","tubes"],["cbc|complete blood","cbc"],["esr","esr"],["platelet","platelets"],["blood group","bloodgroup"],["inr","inr"],["hemoglobin","bloodtest"],["biopsy|fnac|pap smear|psa|ca-125","pathologist"],["men's|male","doctor"],["full body|checkup|health|package|employment","checkup"]];
 function pic(x){const n=(x.name+" "+x.category).toLowerCase();for(const[k,v]of KW)if(new RegExp(k).test(n))return v;return IM[x.category]||"lab"}
 const IM={"Packages":"checkup","Hematology":"bloodtest","Biochemistry":"tubes","Hormones & Vitamins":"tubes","Infection":"microscope","Clinical Pathology":"tray","Histopathology":"pathologist","Tumor Markers":"lab"};const AM={"Packages":"child","Hematology":"blood","Biochemistry":"flask","Hormones & Vitamins":"flask","Infection":"microscope","Clinical Pathology":"flask","Histopathology":"microscope","Tumor Markers":"microscope"};
 const CATS=[["Hematology","\u{1FA78}","CBC, Hb, ESR, platelets, blood group, PT/INR"],["Biochemistry","\u{1F9EA}","Sugar, HbA1c, lipid, LFT, KFT, electrolytes"],["Hormones & Vitamins","\u{1F9EC}","Thyroid, Vitamin D, B12, iron"],["Infection","\u{1F9A0}","Widal, dengue, malaria, HIV, hepatitis, CRP"],["Clinical Pathology","\u{1F4A7}","Urine and stool routine"],["Histopathology","\u{1F52C}","Biopsy, FNAC, Pap smear"],["Tumor Markers","\u{1F397}","PSA, CA-125 and more"],["Packages","\u{1F4E6}","Full body, diabetes, cardiac, fever, women's health"]];
@@ -133,16 +161,54 @@ function feed(){if(!A.length)return;const a=A[fi++%A.length],d=document.createEl
 function lev(a,b){const m=[];for(let i=0;i<=a.length;i++)m[i]=[i];for(let j=1;j<=b.length;j++)m[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]==b[j-1]?0:1));return m[a.length][b.length]}
 const norm=s=>s.toLowerCase().replace(/[^a-z0-9]/g," ");
 function hit(t,ws){const tol=t.length<=4?(t.length==4?1:0):t.length<=6?1:2;return ws.some(w=>w.includes(t)||(tol&&(lev(t,w)<=tol||(w.length>t.length&&lev(t,w.slice(0,t.length))<=tol))))}
-function match(x,s){const ts=norm(s).split(" ").filter(t=>t.length>1);if(!ts.length)return true;const ws=norm(x.name+" "+x.category+" "+(x.description||"")).split(" ").filter(Boolean);return ts.every(t=>hit(t,ws))}
+const STOP=new Set(["test","tests","for","the","and","of","my","a"]);
+const EXP={cbc:"complete blood count",lft:"liver function",kft:"kidney function",rft:"kidney function",sugar:"glucose",diabetes:"glucose hba1c",diabetic:"glucose hba1c",anemia:"anaemia hemoglobin",anaemia:"hemoglobin iron",cholesterol:"lipid",fever:"widal dengue malaria typhoid",hb:"hemoglobin",vitd:"vitamin",d3:"vitamin",thyroid:"tsh",pregnancy:"pregnan hcg"};
+function toks(s){return norm(String(s).toLowerCase().replace(/check\s*-?\s*up/g,"checkup")).split(" ").filter(t=>t.length>1&&!STOP.has(t))}
+function sc(t,nw,dw){if(nw.some(w=>w.startsWith(t)))return 3;if(t.length>2&&nw.some(w=>w.includes(t)))return 2.5;
+if(t.length>=5&&nw.some(w=>lev(t,w)<=1||(w.length>t.length&&lev(t,w.slice(0,t.length))<=1)))return 2;if(dw.some(w=>w.startsWith(t)))return 1;return 0}
+function score(x,s){const ts=toks(s);if(!ts.length)return 1;const nw=norm(x.name).split(" ").filter(Boolean),dw=norm((x.description||"")+" "+x.category).split(" ").filter(Boolean);let tot=0;
+for(const t of ts){let b=sc(t,nw,dw);if(!b&&EXP[t])for(const e of EXP[t].split(" "))b=Math.max(b,sc(e,nw,dw)*.8);if(!b)return 0;tot+=b}return tot}
+function match(x,s){return score(x,s)>0}
 function cats(){$("cg").innerHTML=CATS.map((c,i)=>`<div class="card cc" data-i="${i}"><div>${c[1]}</div><b>${c[0]}</b><small>${c[2]}</small></div>`).join("")}
 function chips(){const cs=["All",...CATS.map(c=>c[0])];$("chips").innerHTML=cs.map(c=>`<button class="chip ${c==cat?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("")}
-function grid(){const l=T.filter(x=>(cat=="All"||x.category==cat)&&match(x,q));$("none").style.display=l.length?"none":"block";if($("rc"))$("rc").textContent=q.trim()?(l.length?l.length+" found":"No match"):"";
+function grid(){let l=T.filter(x=>(cat=="All"||x.category==cat)&&match(x,q));if(q.trim())l.sort((a,b)=>score(b,q)-score(a,q));$("none").style.display=l.length?"none":"block";if($("rc"))$("rc").textContent=q.trim()?(l.length?l.length+" found":"No match"):"";
 $("grid").innerHTML=l.map(x=>{const has=x.price!=null;return `<div class="card"><div class="im" style="background-image:url('images/${pic(x)}.jpg'),url('images/${IM[x.category]||"lab"}.jpg')"></div><div><span class="tag c">${esc(x.category)}</span> ${x.featured?'<span class="tag">Popular</span>':""}</div><h3>${esc(x.name)}</h3>
 <div>${!has?'<span class="new" style="font-size:1rem">Call for rate</span>':x.offer_price!=null?`<span class="old">&#8377;${esc(x.price)}</span><span class="new">&#8377;${esc(x.offer_price)}</span>`:`<span class="new">&#8377;${esc(x.price)}</span>`}</div>
 <div class="b"><a class="btn o" href="test.html?id=${x.id??0}">Know more</a><a class="btn" target="_blank" rel="noopener" href="${wa("Hello, I want to book: "+x.name)}">Book</a></div></div>`}).join("")}
 $("cg").onclick=e=>{const c=e.target.closest(".cc");if(c){cat=CATS[c.dataset.i][0];chips();grid();$("tests").scrollIntoView()}};
-$("chips").onclick=e=>{if(e.target.dataset.c){cat=e.target.dataset.c;chips();grid()}};const doSearch=()=>{q=$("q").value;if(q.trim())cat="All";chips();grid();if(q.trim().length>1){const r=$("tests").getBoundingClientRect();if(r.top>innerHeight*.6||r.top<0)$("tests").scrollIntoView({behavior:"smooth",block:"start"})}};
-$("q").addEventListener("input",doSearch);$("q").addEventListener("search",doSearch);$("q").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("q").blur()}});
+$("chips").onclick=e=>{if(e.target.dataset.c){cat=e.target.dataset.c;chips();grid()}};const DICT=[
+["blood|rbc|wbc|haem|hema",["CBC","Platelets","Hemoglobin","ESR","Blood group","Blood sugar","PT INR"]],
+["sugar|diabetes|glucose|diabetic",["Blood sugar","Fasting glucose","HbA1c","Diabetes package","Urine sugar"]],
+["thyroid|tsh|goitre",["Thyroid profile","TSH","T3","T4"]],
+["liver|jaundice|hepatitis",["LFT","SGPT","SGOT","Bilirubin","Hepatitis B","Hepatitis C"]],
+["kidney|renal|urea",["KFT","Creatinine","Urea","Uric acid","Electrolytes"]],
+["fever|typhoid|infection",["Widal","Typhoid","Dengue","Malaria","CRP","CBC"]],
+["heart|cardiac|cholesterol|lipid",["Lipid profile","Cholesterol","HDL","LDL","Triglycerides"]],
+["vitamin|weakness|tired",["Vitamin D","Vitamin B12","Iron","Ferritin"]],
+["anaemia|anemia|iron",["Hemoglobin","CBC","Iron","Ferritin","Vitamin B12"]],
+["urine|pee",["Urine routine","Urine culture","Urine sugar"]],
+["stool|motion",["Stool routine","Stool culture"]],
+["pregnancy|pregnant|women|woman",["Pregnancy test","Beta HCG","Thyroid profile","Hemoglobin","Women's health"]],
+["cancer|tumor|tumour|marker",["PSA","CA-125","Biopsy","FNAC","Pap smear"]],
+["joint|arthritis|pain|bone",["Uric acid","RA factor","CRP","ESR","Calcium","Vitamin D"]],
+["hormone|infertility|pcos",["TSH","Prolactin","FSH","LH","Testosterone"]],
+["body|checkup|health|package",["Full body checkup","Senior citizen","Diabetes package","Cardiac package","Women's health"]],
+["allergy|asthma",["IgE","CBC"]],
+["hiv|aids|std",["HIV","Hepatitis B","VDRL"]]
+];
+const SG=$("sg");
+function sugg(v){v=v.trim().toLowerCase();if(v.length<2)return[];const out=[],seen=new Set();
+const add=(label,note)=>{const k=label.toLowerCase();if(seen.has(k)||k===v)return;const n=T.filter(x=>match(x,label)).length;if(!n)return;seen.add(k);out.push({label,note,n})};
+for(const[keys,rel]of DICT){const ks=keys.split("|");if(ks.some(k=>k.startsWith(v)||(v.length>=4&&lev(v,k.slice(0,v.length))<=1)))rel.forEach(r=>add(r,ks[0]))}
+T.forEach(x=>{if(norm(x.name).split(" ").some(w=>w.startsWith(v)))add(x.name,x.category)});return out.slice(0,7)}
+function showSg(){const a=sugg($("q").value);SG.innerHTML=a.map(o=>`<button type="button" class="sg" data-v="${esc(o.label)}"><span>&#128270;</span><b>${esc(o.label)}</b><small>${esc(o.note)} &bull; ${o.n} test${o.n>1?"s":""}</small></button>`).join("");SG.style.display=a.length?"block":"none"}
+SG.addEventListener("mousedown",e=>e.preventDefault());
+SG.addEventListener("click",e=>{const b=e.target.closest(".sg");if(b){$("q").value=b.dataset.v;doSearch();SG.style.display="none";$("q").blur()}});
+document.addEventListener("click",e=>{if(!e.target.closest(".sbar"))SG.style.display="none"});
+$("q").addEventListener("focus",()=>{if($("q").value.trim().length>1)showSg()});
+$("up").onclick=()=>scrollTo({top:0,behavior:"smooth"});addEventListener("scroll",()=>$("up").classList.toggle("show",scrollY>600),{passive:true});
+const doSearch=()=>{q=$("q").value;if(q.trim())cat="All";chips();grid();showSg();if(q.trim().length>1){const r=$("tests").getBoundingClientRect();if(r.top>innerHeight*.6||r.top<0)$("tests").scrollIntoView({behavior:"smooth",block:"start"})}};
+$("q").addEventListener("input",doSearch);$("q").addEventListener("search",doSearch);$("q").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();SG.style.display="none";$("q").blur()}});
 const P2=["pathologist","bloodtest","patient"];document.querySelectorAll("#sl2 .s").forEach((e,i)=>e.style.backgroundImage="linear-gradient(90deg,#0a2a21f2 30%,#0a2a2166 70%,#0a2a2133),url('images/"+P2[i]+".jpg')");slider($("sl2"),6000);
 async function load(){links();cats();chips();grid();hero();feed();
 if(sb)try{const a=await sb.from("announcements").select("*").eq("active",true).order("created_at",{ascending:false});if(a.data?.length)A=a.data;
