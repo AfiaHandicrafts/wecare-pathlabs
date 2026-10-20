@@ -18,7 +18,7 @@ a{color:#fff}#msg{color:var(--y);padding:6px 16px;min-height:30px}small{color:#6
 <script src="config.js"></script><script src="art.js"></script>
 <script>
 const $=id=>document.getElementById(id),app=$("app"),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-$("b1").innerHTML=art("doctor");$("b2").innerHTML=art("blood");
+document.body.style.background="linear-gradient(#0a2a21e8,#0a2a21e8),url('images/doctor.jpg') center/cover fixed";
 const note=m=>{$("msg").textContent=m;setTimeout(()=>$("msg").textContent="",4000)},num=v=>v===""?null:Number(v);
 if(typeof SUPABASE_URL==="undefined"||!SUPABASE_URL.startsWith("http")){app.innerHTML='<div class="box">Open config.js and paste your Supabase URL and anon key.</div>';throw 0}
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
