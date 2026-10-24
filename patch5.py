@@ -1,72 +1,49 @@
-import shutil, sys
-f = "index.html"
-s = open(f, encoding="utf-8").read()
-shutil.copy(f, "index.backup.html")
-bad = 0
+import re
+def edit(f,subs,regs):
+    s=open(f,encoding="utf-8").read()
+    for a,b in subs:
+        if s.count(a)!=1:
+            print("!! not found once in",f,":",a[:55]);continue
+        s=s.replace(a,b)
+    for pat,b,fl in regs:
+        if len(re.findall(pat,s,fl))!=1:
+            print("!! pattern not found in",f,":",pat[:40]);continue
+        s=re.sub(pat,lambda m:b,s,flags=fl)
+    open(f,"w",encoding="utf-8").write(s);print("done",f)
 
-def rep(old, new, label):
-    global s, bad
-    if s.count(old) != 1:
-        print("!! not applied:", label); bad += 1; return
-    s = s.replace(old, new); print("ok:", label)
-
-rep('const sb=(typeof SUPABASE_URL!=="undefined"&&',
-    'const sb=(typeof supabase!=="undefined"&&typeof SUPABASE_URL!=="undefined"&&', "supabase crash guard")
-rep('.filter(t=>t.length>2);if(!ts.length)return true;', '.filter(t=>t.length>1);if(!ts.length)return true;', "2-letter search terms")
-rep('$("none").style.display=l.length?"none":"block";',
-    '$("none").style.display=l.length?"none":"block";if($("rc"))$("rc").textContent=q.trim()?(l.length?l.length+" found":"No match"):"";', "result count")
-rep('$("q").oninput=e=>{q=e.target.value;if(q)cat="All";chips();grid()};',
-    '''const doSearch=()=>{q=$("q").value;if(q.trim())cat="All";chips();grid();if(q.trim().length>1){const r=$("tests").getBoundingClientRect();if(r.top>innerHeight*.6||r.top<0)$("tests").scrollIntoView({behavior:"smooth",block:"start"})}};
-$("q").addEventListener("input",doSearch);$("q").addEventListener("search",doSearch);$("q").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("q").blur()}});''', "search handler")
-rep('<section class="ctr"><h2>Book a test online</h2><input id="q" placeholder="Search a test: body checkup, thyroid, sugar, vitamin D..." autocomplete="off">',
-    '<div class="sbar"><input id="q" type="search" enterkeyhint="search" placeholder="Search a test: thyroid, sugar, vitamin D..." autocomplete="off"><small id="rc"></small></div>\n<section class="ctr"><h2>Book a test online</h2>', "sticky search bar")
-rep('window.addEventListener("load",()=>window.scrollTo(0,0));',
-    'window.addEventListener("load",()=>window.scrollTo(0,0));window.addEventListener("pageshow",()=>window.scrollTo(0,0));', "open from top")
-rep('<a class="btn" id="fab"',
-    '<div class="mbar"><a id="bc" href="#">&#128222; Call</a><a id="bw" href="#" target="_blank" rel="noopener">WhatsApp</a><a href="#tests">&#129514; Tests</a></div>\n<a class="btn" id="fab"', "bottom bar html")
-rep('$("fab").href=wa("Hello, please call me back.")}',
-    '$("fab").href=wa("Hello, please call me back.");$("bc").href="tel:"+d;$("bw").href=wa("Hello We Care Pathlabs, I want to book a test.")}', "bottom bar links")
-rep('load();setInterval(feed,4500);',
-    'const hh=()=>document.documentElement.style.setProperty("--hh",document.querySelector("header").offsetHeight+"px");hh();addEventListener("resize",hh);addEventListener("load",hh);\nload();setInterval(feed,4500);', "header height var")
-
-CSS = '''
-/* ---- patch5: search + phone/tablet polish ---- */
-:root{--hh:60px}
-.sbar{position:sticky;top:var(--hh);z-index:14;padding:10px max(14px,calc((100% - 1050px)/2)) 6px;background:rgba(10,42,33,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.sbar #q{display:block;width:100%;max-width:none;-webkit-appearance:none;appearance:none;box-shadow:0 6px 18px #0006}
-#rc{display:block;text-align:center;font-weight:700;color:var(--y);min-height:1.1em;margin-top:5px;font-size:.8rem}
-#tests{scroll-margin-top:calc(var(--hh) + 78px)}
-.mbar{display:none}
-.card .b .btn{text-align:center}
-@media(max-width:800px){
- .mbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(6,26,20,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:2px solid var(--y);padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
- .mbar a{text-align:center;text-decoration:none;font-weight:700;font-size:.85rem;padding:11px 4px;border-radius:12px;background:var(--gl);border:1px solid var(--ln)}
- .mbar a:nth-child(2){background:#25d366;color:#05301a;border:0}
- #fab{display:none}
- body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-}
-@media(max-width:600px){
- .sl{height:350px;margin:10px auto}
- .grid{grid-template-columns:repeat(2,1fr);gap:10px}
- #contact .grid{grid-template-columns:1fr}
- .card{padding:10px;border-radius:14px;gap:6px}
- .im{height:92px}
- .card h3{font-size:.92rem;line-height:1.25}
- .card .new{font-size:1.1rem}
- .card .b{flex-direction:column}
- .card .b .btn{width:100%;padding:10px 6px;font-size:.82rem}
- .cc div{font-size:1.6rem}.cc small{font-size:.7rem}
- .chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
- .chips::-webkit-scrollbar{display:none}
- .chip{flex:none;white-space:nowrap}
- .tr{grid-template-columns:1fr 1fr;gap:8px}.tr div{padding:10px;font-size:.78rem}
- #q{font-size:16px;padding:13px 18px}
-}
-@media(min-width:601px) and (max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+CSS2=r'''const css2=document.createElement("style");css2.textContent=`.xh .xw{grid-column:1/-1}.xh .xw .xr{background:none!important;border:0!important;border-bottom:1px dashed rgba(255,255,255,.15)!important;border-radius:0!important;padding:6px 0!important;display:flex;justify-content:space-between}.xh .xw .xr.xt{color:#ffc928;font-weight:700}.xh .xw .xr i{color:#ff9a9a;font-style:normal}`;document.head.appendChild(css2);'''
+UPD=r'''const upd=()=>{$("xwa").href=wa(msg());const m=closedMsg($("xdt").value,$("xtm").value),b=$("xm");if(m)b.innerHTML='<div class="xerr">'+esc(m)+'</div>';else if(b.firstChild&&b.firstChild.className=="xerr")b.innerHTML=""};'''
+MENU=r'''document.addEventListener("click",e=>{const n=$("nav");if(n&&n.classList.contains("open")&&!n.contains(e.target)&&!e.target.closest("#mb"))n.classList.remove("open")});document.addEventListener("keydown",e=>{if(e.key==="Escape"){const n=$("nav");n&&n.classList.remove("open")}});window.addEventListener("scroll",()=>{const n=$("nav");n&&n.classList.remove("open")},{passive:true});
 '''
-rep('</style>', CSS + '</style>', "css")
+HOURS=r'''function t12(t){if(!t)return"";const p=t.split(":").map(Number);return(p[0]%12||12)+":"+String(p[1]).padStart(2,"0")+(p[0]<12?" AM":" PM")}
+function wk(){try{return JSON.parse(S.week)}catch(e){return null}}
+const DK=["sun","mon","tue","wed","thu","fri","sat"],DN=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+function closedMsg(d,t){const w=wk();if(!w||!d)return"";const i=new Date(d+"T12:00:00").getDay(),x=w[DK[i]];if(!x)return"";
+if(!x.o)return"We are closed on "+DN[i]+"s. Please choose another day (for an emergency, please call us).";
+if(x.f&&x.t&&t&&(t<x.f||t>x.t))return"On "+DN[i]+" we are open "+t12(x.f)+" to "+t12(x.t)+". Please choose a time in between.";return""}
+function hours(){const w=wk(),td=new Date().getDay();let rows="";
+if(w){rows='<div class="xw"><small>&#128197; Weekly schedule</small>'+[1,2,3,4,5,6,0].map(i=>{const x=w[DK[i]]||{o:1};return'<div class="xr'+(i==td?" xt":"")+'"><b>'+DN[i]+(i==td?" (today)":"")+'</b><span>'+(x.o?(x.f&&x.t?t12(x.f)+" - "+t12(x.t):"Open"):"<i>Closed</i>")+'</span></div>'}).join("")+'</div>'}
+else rows="<div>&#128197; <small>Working days</small><b>"+esc(S.hours_days)+"</b></div><div>&#9200; <small>Timings</small><b>"+esc(S.hours_time)+"</b></div>";
+$("xh").innerHTML=rows+[["&#128680;","Emergency",S.hours_emergency],["&#127968;","Sample collection",S.hours_note]].filter(x=>x[2]).map(x=>"<div>"+x[0]+" <small>"+x[1]+"</small><b>"+esc(x[2])+"</b></div>").join("")}'''
+edit("extras.js",[
+ ("document.head.appendChild(css);","document.head.appendChild(css);"+CSS2),
+ ('$("xdt").min=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);','const td0=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);$("xdt").min=td0;$("xdt").value=td0;'),
+ ('const upd=()=>{$("xwa").href=wa(msg())};',UPD),
+ ('const row={first_name:','const dc=closedMsg($("xdt").value,$("xtm").value);if(dc){show(esc(dc),1);return}const row={first_name:'),
+ ('const nv=$("nav");if(nv&&nv.tagName=="NAV"){',MENU+'const nv=$("nav");if(nv&&nv.tagName=="NAV"){'),
+ ('a.textContent="Make an appointment";nv.insertBefore(a,nv.firstChild)}','a.textContent="Make an appointment";nv.insertBefore(a,nv.firstChild);const c=document.createElement("a");c.href="#";c.innerHTML="&#10005; Close menu";c.onclick=ev=>{ev.preventDefault();nv.classList.remove("open")};nv.insertBefore(c,nv.firstChild)}')],
+ [(r'^function hours\(\)\{.*$',HOURS,re.M)])
 
-if bad:
-    print("\n%d step(s) failed - index.html NOT changed. Send me the !! lines." % bad); sys.exit(1)
-open(f, "w", encoding="utf-8").write(s)
-print("\nAll done. Backup saved as index.backup.html")
+SET=r'''const DY=[["mon","Monday"],["tue","Tuesday"],["wed","Wednesday"],["thu","Thursday"],["fri","Friday"],["sat","Saturday"],["sun","Sunday"]];
+async function settings(){const{data}=await sb.from("settings").select("*"),o={};(data||[]).forEach(r=>o[r.key]=r.value);let w={};try{w=JSON.parse(o.week||"{}")}catch(e){}
+const F=[["phone","Phone"],["email","E-mail (shown in full on the site)"],["address","Address"],["hours_emergency","Emergency service text"],["hours_note","Extra note (e.g. home collection)"],["hours_days","Short working-days text (used only if no weekly schedule is saved)"],["hours_time","Short timings text (same)"]];
+app.innerHTML=`<div class="box"><h2>&#128197; Weekly working schedule</h2><small>Switch a day off when the lab is closed. Times are optional. Patients cannot book appointments on closed days.</small>
+${DY.map(d=>{const x=w[d[0]]||{o:1,f:"",t:""};return`<div class="card" style="margin-top:8px"><div class="row"><b style="min-width:92px">${d[1]}</b><label><input type="checkbox" id="wo_${d[0]}" ${x.o?"checked":""}>Open</label></div><div class="g2"><div><label class="k">Opens at</label><input type="time" id="wf_${d[0]}" value="${esc(x.f)}"></div><div><label class="k">Closes at</label><input type="time" id="wt_${d[0]}" value="${esc(x.t)}"></div></div></div>`}).join("")}
+<div class="row" style="margin-top:10px"><button class="b" onclick="saveWeek()">Save weekly schedule</button><button class="b gr" onclick="allDays(1)">All days open</button><button class="b" onclick="copyMon()">Copy Monday times to all</button></div></div>
+<div class="box"><h2>&#9881; Contact &amp; other details</h2>${F.map(f=>`<label class="k">${f[1]}</label><input id="s_${f[0]}" value="${esc(o[f[0]])}">`).join("")}<br><button class="b" onclick="saveSet()">Save</button></div>
+<div class="box"><h2>&#128273; Change admin password</h2><label class="k">New password (at least 8 characters)</label><input id="npw" type="password" autocomplete="new-password"><br><button class="b" onclick="chPw()">Change password</button></div>`}
+async function saveWeek(){const w={};DY.forEach(d=>{w[d[0]]={o:$("wo_"+d[0]).checked?1:0,f:$("wf_"+d[0]).value,t:$("wt_"+d[0]).value}});const{error}=await sb.from("settings").upsert({key:"week",value:JSON.stringify(w)});note(error?error.message:"Weekly schedule saved")}
+function allDays(v){DY.forEach(d=>$("wo_"+d[0]).checked=!!v)}
+function copyMon(){DY.forEach(d=>{$("wf_"+d[0]).value=$("wf_mon").value;$("wt_"+d[0]).value=$("wt_mon").value})}
+'''
+edit("admin.html",[],[(r'async function settings\(\)\{.*?\}\n(?=async function saveSet)',SET,re.S)])
