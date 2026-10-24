@@ -43,4 +43,4 @@ $("sl").innerHTML=ST.map(s=>`<div class="s" style="background-image:linear-gradi
 async function load(){show();if(!sb)return;try{const id=new URLSearchParams(location.search).get("id");const r=await sb.from("tests").select("*").eq("id",id).maybeSingle();if(r.data)X=r.data;
 const s=await sb.from("settings").select("*");(s.data||[]).forEach(r=>S[r.key]=r.value)}catch(e){console.error(e)}show()}
 load();
-</script></body></html>
+</script><script src="extras.js"></script></body></html>
