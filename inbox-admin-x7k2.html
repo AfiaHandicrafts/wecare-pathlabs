@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Patient messages</title>
+<style>
+body{font-family:sans-serif;max-width:700px;margin:0 auto;padding:16px}
+.m{border:1px solid #ccc;border-radius:8px;padding:10px;margin:10px 0}
+.u{background:#eefaf4}
+button,input{padding:8px;font-size:16px;margin:2px}
+small{color:#555}
+</style>
+</head>
+<body>
+<h2>Patient messages</h2>
+<div id="box"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const box = document.getElementById('box');
+function el(tag, text, css) {
+  const e = document.createElement(tag);
+  if (text) e.textContent = text;
+  if (css) e.style.cssText = css;
+  return e;
+}
+function showLogin(note) {
+  box.replaceChildren();
+  if (note) box.append(el('p', note));
+  const email = el('input');
+  email.type = 'email';
+  email.placeholder = 'Admin email';
+  const b = el('button', 'Email me a login link');
+  b.onclick = async () => {
+    const { error } = await sb.auth.signInWithOtp({
+      email: email.value,
+      options: { emailRedirectTo: location.origin + location.pathname }
+    });
+    showLogin(error ? error.message : 'Check your email and tap the login link.');
+  };
+  box.append(email, b);
+}
+async function load() {
+  const { data: s } = await sb.auth.getSession();
+  if (!s.session) { showLogin(); return; }
+  box.replaceChildren();
+  const top = el('p', 'Logged in as ' + s.session.user.email + ' ');
+  const out = el('button', 'Log out');
+  out.onclick = async () => { await sb.auth.signOut(); showLogin(); };
+  top.append(out);
+  box.append(top);
+  const { data, error } = await sb.from('inbox_messages').select('*').order('created_at', { ascending: false });
+  if (error) { box.append(el('p', 'Error: ' + error.message)); return; }
+  if (!data.length) box.append(el('p', 'No messages yet (or this login is not set as admin).'));
+  data.forEach(r => {
+    const d = el('div', '', '');
+    d.className = 'm' + (r.is_read ? '' : ' u');
+    d.append(el('b', r.name));
+    d.append(el('small', '  ' + new Date(r.created_at).toLocaleString()));
+    d.append(el('p', r.message, 'white-space:pre-wrap'));
+    const rd = el('button', r.is_read ? 'Mark unread' : 'Mark read');
+    rd.onclick = async () => { await sb.from('inbox_messages').update({ is_read: !r.is_read }).eq('id', r.id); load(); };
+    const del = el('button', 'Delete');
+    del.onclick = async () => { if (confirm('Delete this message?')) { await sb.from('inbox_messages').delete().eq('id', r.id); load(); } };
+    d.append(rd, del);
+    box.append(d);
+  });
+}
+load();
+</script>
+</body>
+</html>
