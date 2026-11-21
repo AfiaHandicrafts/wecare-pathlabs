@@ -6,16 +6,22 @@
 <meta name="robots" content="noindex">
 <title>Patient messages</title>
 <style>
-body{font-family:sans-serif;max-width:700px;margin:0 auto;padding:16px}
-.m{border:1px solid #ccc;border-radius:8px;padding:10px;margin:10px 0}
-.u{background:#eefaf4}
-button,input{padding:8px;font-size:16px;margin:2px}
-small{color:#555}
+body{margin:0;background:#0f3d2e;color:#fff;font-family:sans-serif}
+header{background:#0a2a1f;border-bottom:3px solid #fcc419;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+header h2{margin:0;color:#fcc419;font-size:20px}
+a{color:#fcc419}
+main{max-width:720px;margin:0 auto;padding:16px}
+.m{background:#16503b;border-left:4px solid #555;border-radius:10px;padding:12px;margin:12px 0}
+.u{border-left-color:#fcc419}
+button,input{padding:10px;font-size:16px;border-radius:8px;border:0;margin:4px 4px 4px 0}
+button{background:#fcc419;color:#000;cursor:pointer}
+input{background:#fff;color:#000}
+small{opacity:.7}
 </style>
 </head>
 <body>
-<h2>Patient messages</h2>
-<div id="box"></div>
+<header><h2>Patient messages</h2><a href="manage-x7k2.html">Main admin</a></header>
+<main id="box"></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
@@ -29,19 +35,19 @@ function el(tag, text, css) {
 }
 function showLogin(note) {
   box.replaceChildren();
+  box.append(el('h3', 'Admin login'));
   if (note) box.append(el('p', note));
+  const g = el('button', 'Continue with Google');
+  g.onclick = () => sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
   const email = el('input');
   email.type = 'email';
   email.placeholder = 'Admin email';
   const b = el('button', 'Email me a login link');
   b.onclick = async () => {
-    const { error } = await sb.auth.signInWithOtp({
-      email: email.value,
-      options: { emailRedirectTo: location.origin + location.pathname }
-    });
+    const { error } = await sb.auth.signInWithOtp({ email: email.value, options: { emailRedirectTo: location.origin + location.pathname } });
     showLogin(error ? error.message : 'Check your email and tap the login link.');
   };
-  box.append(email, b);
+  box.append(g, el('br'), email, b);
 }
 async function load() {
   const { data: s } = await sb.auth.getSession();
@@ -56,7 +62,7 @@ async function load() {
   if (error) { box.append(el('p', 'Error: ' + error.message)); return; }
   if (!data.length) box.append(el('p', 'No messages yet (or this login is not set as admin).'));
   data.forEach(r => {
-    const d = el('div', '', '');
+    const d = el('div');
     d.className = 'm' + (r.is_read ? '' : ' u');
     d.append(el('b', r.name));
     d.append(el('small', '  ' + new Date(r.created_at).toLocaleString()));
